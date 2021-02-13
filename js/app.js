@@ -3,8 +3,8 @@ const body = document.getElementsByTagName('body')[0];
 
 
 let peopleArray =[];
-let index=0;
-let peopleIndex =0;
+let index;
+let peopleIndex;
 
 window.onload = (event )=>{
     fetchData('https://randomuser.me/api/?results=12&inc=name,gender,location,email,picture,cell,dob,nat&nat=ca,us');
@@ -46,14 +46,20 @@ console.log(cards);
 
 galley.addEventListener('click', (e)=>{
     const cards = document.querySelectorAll('.card');
-    const img = document.querySelector('.card-img');
-    const id = document.getElementById('name');
-    const email = document.querySelectorAll('.card-text')[0];
-    const city = document.querySelectorAll('.card-text')[1];
+    
 
     for(let i=0;i< cards.length; i++){
-        if(e.target === cards[i] || e.target === img || e.target === id || e.target === email || e.target === city){
+        const img = cards[i].querySelector('.card-img');
+        const id = cards[i].querySelector('.card-name ');
+        const email = cards[i].querySelectorAll('.card-text')[0];
+        const city = cards[i].querySelectorAll('.card-text')[1];
+
+        
+        if(e.target === cards[i] || e.target === img || e.target === id || e.target === email || e.target === city ){
+           
             createModal(i);
+            peopleIndex =i;
+            console.log(peopleIndex);
         }
     }
    
@@ -97,3 +103,45 @@ function createModal(i){
         overlay.remove();
     }
  });
+
+ body.addEventListener('click', (e)=>{
+    const next = document.getElementById('modal-next');
+    const prev = document.getElementById('modal-prev');
+
+
+    if(e.target === next){
+        if(peopleIndex < peopleArray.length-1){
+            peopleIndex ++;
+        }else {
+            peopleIndex=0;
+        }
+        addData(peopleIndex);
+    }
+
+    if(e.target === prev){
+
+        if(peopleIndex > 0){
+            peopleIndex --;
+        }else {
+            peopleIndex= peopleArray.length-1;
+        }
+        addData(peopleIndex);
+    }
+})
+
+function addData(i){
+
+    
+    const image = document.querySelector('.modal-img');
+    let modalName = document.querySelector('.modal-name');
+    let modalEmail = document.querySelectorAll('.modal-text')[0];
+    let modalCity = document.querySelectorAll('.modal-text')[1];
+    let modalPhone = document.querySelectorAll('.modal-text')[2];
+    image.setAttribute('src', peopleArray[i].picture.medium);
+    modalName.innerText = `${peopleArray[i].name.first} ${peopleArray[i].name.last} ` ;
+    modalEmail.innerText = peopleArray[i].email;
+    modalCity.innerText = peopleArray[i].location.city;
+    modalPhone.innerText = peopleArray[i].cell;
+ 
+ 
+}

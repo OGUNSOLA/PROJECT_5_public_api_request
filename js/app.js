@@ -85,5 +85,15 @@ function createModal(i){
                         </div>
                     </div>`;
 
-                body.insertAdjacentHTML('beforeend', overlay);
+                galley.insertAdjacentHTML('afterend', overlay);
  }
+
+ body.addEventListener('click', (event)=>{
+    const closeX = document.getElementsByTagName('strong')[0];
+    const closeButton = document.getElementById('modal-close-btn');
+    const overlay  = document.querySelector('.modal-container');
+    
+    if(event.target === closeButton || event.target === closeX){
+        overlay.remove();
+    }
+ });

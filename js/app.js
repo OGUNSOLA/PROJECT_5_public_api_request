@@ -46,9 +46,13 @@ console.log(cards);
 
 galley.addEventListener('click', (e)=>{
     const cards = document.querySelectorAll('.card');
+    const img = document.querySelector('.card-img');
+    const id = document.getElementById('name');
+    const email = document.querySelectorAll('.card-text')[0];
+    const city = document.querySelectorAll('.card-text')[1];
 
     for(let i=0;i< cards.length; i++){
-        if(e.target === cards[i]){
+        if(e.target === cards[i] || e.target === img || e.target === id || e.target === email || e.target === city){
             createModal(i);
         }
     }
@@ -56,6 +60,8 @@ galley.addEventListener('click', (e)=>{
 })
 
 function createModal(i){
+    let birthday = peopleArray[i].dob.date.substr(0, 10);
+    birthday= `${birthday.substr(8,2)}/${birthday.substr(5,2)}/${birthday.substr(2,2)}`;
     
     const overlay = `<div class="modal-container">
                         <div class="modal">
@@ -65,10 +71,10 @@ function createModal(i){
                                 <h3 id="name" class="modal-name cap">${peopleArray[i].name.first} ${peopleArray[i].name.last}</h3>
                                 <p class="modal-text">${peopleArray[i].email}</p>
                                 <p class="modal-text cap">${peopleArray[i].location.city}</p>
-                                <hr>
+                                <hr> 
                                 <p class="modal-text">${peopleArray[i].cell}</p>
-                                <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-                                <p class="modal-text">Birthday: 10/21/2015</p>
+                                <p class="modal-text">${peopleArray[i].location.street.number} ${peopleArray[i].location.street.name}, ${peopleArray[i].location.city} ${peopleArray[i].location.postcode}</p>
+                                <p class="modal-text">Birthday: ${birthday}</p>
                             </div>
                         </div>
 

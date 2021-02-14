@@ -157,7 +157,7 @@ function addData(i){
     let modalPhone = document.querySelectorAll('.modal-text')[2];
     let modalAddress = document.querySelectorAll('.modal-text')[3];
     let modalBirthday = document.querySelectorAll('.modal-text')[4];
-    image.setAttribute('src', peopleArray[i].picture.medium);
+    image.setAttribute('src', peopleArray[i].picture.large);
     modalName.innerText = `${peopleArray[i].name.first} ${peopleArray[i].name.last} ` ;
     modalEmail.innerText = peopleArray[i].email;
     modalCity.innerText = peopleArray[i].location.city;

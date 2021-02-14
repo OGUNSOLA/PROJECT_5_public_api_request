@@ -94,6 +94,7 @@ header h1 {
     overflow: hidden;
 }
 
+
 .card-img {
     width: 95px;
     margin: 10px 15px auto 10px;
@@ -248,12 +249,12 @@ header h1 {
 @media (min-width: 1024px) {
 
     .card:hover {
-        background: rgba(255, 255, 255, 1);
-        border: 1px solid rgba(50, 50, 50, 0.9);
+        background: rgb(214, 161, 161);
+        border: 1px solid rgba(221, 144, 144, 0.9);
     }
 
     .card:hover .card-text {
-        color: rgba(25, 25, 25, 1); 
+        color: rgb(22, 12, 12); 
     }
 
     .btn:hover {

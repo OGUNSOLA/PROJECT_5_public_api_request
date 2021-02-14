@@ -1,10 +1,19 @@
 const galley = document.getElementById('gallery');
 const body = document.getElementsByTagName('body')[0];
+const galleryContent = galley.childNodes;
+
 
 
 let peopleArray =[];
 let index;
 let peopleIndex;
+
+const searchContainer = document.querySelector('.search-container');
+const searchForm = `<form action="#" method="get">
+                        <input type="search" id="search-input" class="search-input" placeholder="Search...">
+                        <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+                    </form>`;
+searchContainer.insertAdjacentHTML('afterbegin', searchForm);
 
 window.onload = (event )=>{
     fetchData('https://randomuser.me/api/?results=12&inc=name,gender,location,email,picture,cell,dob,nat&nat=ca,us');
@@ -17,7 +26,9 @@ function fetchData(url){
         console.log(people);
         generateHTML(people);
         people.forEach(person => {
-            peopleArray.push(person)});
+            peopleArray.push(person);
+        });
+            
     }    );
    
 }
@@ -42,7 +53,6 @@ function generateHTML (people){
 }
 
 const cards = document.querySelectorAll('.card');
-console.log(cards);
 
 galley.addEventListener('click', (e)=>{
     const cards = document.querySelectorAll('.card');
@@ -59,7 +69,6 @@ galley.addEventListener('click', (e)=>{
            
             createModal(i);
             peopleIndex =i;
-            console.log(peopleIndex);
         }
     }
    
@@ -67,7 +76,7 @@ galley.addEventListener('click', (e)=>{
 
 function createModal(i){
     let birthday = peopleArray[i].dob.date.substr(0, 10);
-    birthday= `${birthday.substr(8,2)}/${birthday.substr(5,2)}/${birthday.substr(2,2)}`;
+    birthday= `${birthday.substr(5,2)}/${birthday.substr(8,2)}/${birthday.substr(2,2)}`;
     
     const overlay = `<div class="modal-container">
                         <div class="modal">
@@ -84,7 +93,6 @@ function createModal(i){
                             </div>
                         </div>
 
-                        // IMPORTANT: Below is only for exceeds tasks 
                         <div class="modal-btn-container">
                             <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
                             <button type="button" id="modal-next" class="modal-next btn">Next</button>
@@ -131,17 +139,50 @@ function createModal(i){
 
 function addData(i){
 
-    
+    let birthday = peopleArray[i].dob.date.substr(0, 10);
     const image = document.querySelector('.modal-img');
     let modalName = document.querySelector('.modal-name');
     let modalEmail = document.querySelectorAll('.modal-text')[0];
     let modalCity = document.querySelectorAll('.modal-text')[1];
     let modalPhone = document.querySelectorAll('.modal-text')[2];
+    let modalAddress = document.querySelectorAll('.modal-text')[3];
+    let modalBirthday = document.querySelectorAll('.modal-text')[4];
     image.setAttribute('src', peopleArray[i].picture.medium);
     modalName.innerText = `${peopleArray[i].name.first} ${peopleArray[i].name.last} ` ;
     modalEmail.innerText = peopleArray[i].email;
     modalCity.innerText = peopleArray[i].location.city;
     modalPhone.innerText = peopleArray[i].cell;
+    modalAddress.innerText = `${peopleArray[i].location.street.number} ${peopleArray[i].location.street.name} ${peopleArray[i].location.city} ${peopleArray[i].location.postcode}`;
+    modalBirthday.innerText= ` Birhday: ${birthday.substr(5,2)}/${birthday.substr(8,2)}/${birthday.substr(2,2)}`;
  
  
 }
+
+
+
+
+
+searchContainer.addEventListener('keyup', (e) => {
+    
+    const cards = document.querySelectorAll('.card');
+            const input = document.getElementById('search-input');
+
+    cards.forEach(card =>{
+        if(e.target === input){
+        let search = input.value.toLowerCase();
+        const nameToFind = card.querySelector('#name').textContent.toLowerCase();
+        if(nameToFind.includes(search)) {
+            card.style.display = 'flex';
+        }
+        else {
+            card.style.display = 'none';
+        }
+        }
+    });
+    
+    
+ });
+ 
+
+
+ 

@@ -182,7 +182,7 @@ searchContainer.addEventListener('keyup', (e) => {
         let search = input.value.toLowerCase();
         const nameToFind = card.querySelector('#name').textContent.toLowerCase();
         if(nameToFind.includes(search)) {
-            card.style.display = 'flex';
+            card.style.display = 'block';
         }
         else {
             card.style.display = 'none';

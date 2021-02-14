@@ -15,23 +15,33 @@ const searchForm = `<form action="#" method="get">
                     </form>`;
 searchContainer.insertAdjacentHTML('afterbegin', searchForm);
 
-window.onload = (event )=>{
-    fetchData('https://randomuser.me/api/?results=12&inc=name,gender,location,email,picture,cell,dob,nat&nat=ca,us');
-}
-function fetchData(url){
+function checkStatus(response) {
+    if (response.ok) {
+      return Promise.resolve(response);
+    } else {
+      return Promise.reject(new Error(response.statusText));
+    }
+  }
+
+function fetchData(url) {
     return fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        const people = data.results;
-        console.log(people);
-        generateHTML(people);
-        people.forEach(person => {
-            peopleArray.push(person);
-        });
-            
-    }    );
-   
-}
+             .then(checkStatus)  
+             .then(response => response.json())
+             .catch(error => console.log('Error occured fetching data!', error))
+  }
+
+  fetchData('https://randomuser.me/api/?results=12&inc=name,gender,location,email,picture,cell,dob,nat&nat=ca,us')
+  .then(data => {
+    const people = data.results;
+    generateHTML(people);
+    people.forEach(person => {
+        peopleArray.push(person);
+    });
+        
+}    );
+
+
+
 
 function generateHTML (people){
     let eachPerson;

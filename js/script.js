@@ -4,9 +4,8 @@ const galleryContent = galley.childNodes;
 
 
 
-let peopleArray =[];
-let index;
-let peopleIndex;
+let peopleArray =[]; // store the retuen data in this array for future use 
+let peopleIndex;  // used to track displayed profile on the overlay
 
 const searchContainer = document.querySelector('.search-container');
 const searchForm = `<form action="#" method="get">
@@ -14,7 +13,8 @@ const searchForm = `<form action="#" method="get">
                         <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
                     </form>`;
 searchContainer.insertAdjacentHTML('afterbegin', searchForm);
-
+ 
+// check status of the response
 function checkStatus(response) {
     if (response.ok) {
       return Promise.resolve(response);
@@ -23,6 +23,8 @@ function checkStatus(response) {
     }
   }
 
+
+  // function fetches data from the API website 
 function fetchData(url) {
     return fetch(url)
              .then(checkStatus)  
@@ -42,6 +44,7 @@ function fetchData(url) {
 
 
 
+// for each profile returned, a div is dynamicall created to hold the dfata
 
 function generateHTML (people){
     let eachPerson;
@@ -64,10 +67,11 @@ function generateHTML (people){
 
 const cards = document.querySelectorAll('.card');
 
+
+// when a profile is selected , the profile is pushed to the overlay to be displeyd 
 galley.addEventListener('click', (e)=>{
     const cards = document.querySelectorAll('.card');
     
-
     for(let i=0;i< cards.length; i++){
         const img = cards[i].querySelector('.card-img');
         const id = cards[i].querySelector('.card-name ');
@@ -84,6 +88,8 @@ galley.addEventListener('click', (e)=>{
    
 })
 
+
+// create a modal on the overlay to hold the clicked profile for display
 function createModal(i){
     let birthday = peopleArray[i].dob.date.substr(0, 10);
     birthday= `${birthday.substr(5,2)}/${birthday.substr(8,2)}/${birthday.substr(2,2)}`;
@@ -112,6 +118,8 @@ function createModal(i){
                 galley.insertAdjacentHTML('afterend', overlay);
  }
 
+
+ // add an event listener to the close button to close the modal display
  body.addEventListener('click', (event)=>{
     const closeX = document.getElementsByTagName('strong')[0];
     const closeButton = document.getElementById('modal-close-btn');
@@ -122,16 +130,17 @@ function createModal(i){
     }
  });
 
+ // cycles the displayed profile when next pr back button is clicked 
  body.addEventListener('click', (e)=>{
     const next = document.getElementById('modal-next');
     const prev = document.getElementById('modal-prev');
 
 
     if(e.target === next){
-        if(peopleIndex < peopleArray.length-1){
+        if(peopleIndex < peopleArray.length-1){ 
             peopleIndex ++;
         }else {
-            peopleIndex=0;
+            peopleIndex=0;  // returns to first profile if next is clicked on last profile 
         }
         addData(peopleIndex);
     }
@@ -141,7 +150,7 @@ function createModal(i){
         if(peopleIndex > 0){
             peopleIndex --;
         }else {
-            peopleIndex= peopleArray.length-1;
+            peopleIndex= peopleArray.length-1; // returns to last profile if back is clicked on first profile 
         }
         addData(peopleIndex);
     }
@@ -171,7 +180,7 @@ function addData(i){
 
 
 
-
+// event listener to the search field to seatcj for profile
 searchContainer.addEventListener('keyup', (e) => {
     
     const cards = document.querySelectorAll('.card');
